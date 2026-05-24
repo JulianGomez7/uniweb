@@ -1,0 +1,74 @@
+<!doctype html>
+<!--
+  editar_producto.html — Formulario para editar un producto existente
+  Diapositiva 43: UPDATE del CRUD
+
+  La diferencia con registro_producto.html es que los inputs
+  vienen PRE-LLENADOS con los datos actuales del producto.
+  Usamos {{ producto.nombre }} y {{ producto.precio }} para eso.
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Editar producto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f5f5f5;
+    }
+    h1 { color: #e68a00; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button[type="submit"] {
+      margin-top: 20px;
+      padding: 10px 24px;
+      background: #e68a00;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button[type="submit"]:hover { background: #c07000; }
+    .back-link { margin-top: 15px; display: block; color: #028090; }
+  </style>
+</head>
+<body>
+
+  <h1>Editar producto</h1>
+
+  <!--
+    Al hacer POST a esta misma URL, Django ejecuta editar_producto(request, id)
+    El ID ya está en la URL, no hace falta un campo hidden.
+  -->
+  <form method="post">
+    {% csrf_token %}
+
+    <label for="nombre">Nombre:</label>
+    <!--
+      value="{{ producto.nombre }}" → Django rellena el input con el valor actual
+      Así el usuario ve los datos existentes y puede modificarlos
+    -->
+    <input type="text" id="nombre" name="nombre" value="{{ producto.nombre }}" required />
+
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" name="precio" step="0.01"
+           value="{{ producto.precio }}" required />
+
+    <button type="submit">Guardar cambios</button>
+  </form>
+
+  <a class="back-link" href="/productos/">← Volver a la lista</a>
+
+</body>
+</html>

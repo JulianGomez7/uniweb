@@ -1,0 +1,4 @@
+[deploy]
+# Comando que Railway ejecuta antes de arrancar el servidor
+# Aplica las migraciones automáticamente cada vez que se despliega
+startCommand = "python manage.py migrate && gunicorn uniweb.wsgi"

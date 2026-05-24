@@ -1,0 +1,100 @@
+<!doctype html>
+<!--
+  lista_productos.html — Lista de productos con acciones CRUD
+  Diapositivas 36 y 45:
+    - Listar productos (READ)
+    - Links para Editar y Eliminar (UPDATE / DELETE)
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Lista de productos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 650px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f5f5f5;
+    }
+    h1 { color: #028090; }
+    ul { list-style: none; padding: 0; }
+    li {
+      background: white;
+      margin: 8px 0;
+      padding: 12px 16px;
+      border-left: 4px solid #028090;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .producto-info { font-size: 1rem; }
+    .producto-info strong { color: #333; }
+    .acciones a {
+      margin-left: 10px;
+      padding: 5px 12px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: white;
+    }
+    /* Botón editar */
+    .btn-editar { background: #e68a00; }
+    .btn-editar:hover { background: #c07000; }
+    /* Botón eliminar */
+    .btn-eliminar { background: #cc3333; }
+    .btn-eliminar:hover { background: #aa2222; }
+    .links { margin-top: 20px; }
+    .links a {
+      display: inline-block;
+      margin: 5px 10px 5px 0;
+      padding: 8px 14px;
+      background: #028090;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .links a:hover { background: #016070; }
+    .empty-msg { color: #888; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <h1>Lista de productos</h1>
+
+  {% if productos %}
+    <ul>
+      {% for producto in productos %}
+        <li>
+          <!-- Mostrar nombre y precio del producto -->
+          <span class="producto-info">
+            <strong>{{ producto.nombre }}</strong> — ${{ producto.precio }}
+          </span>
+
+          <!-- Acciones CRUD (diapositiva 45) -->
+          <span class="acciones">
+            <!--
+              URL dinámica: /productos/editar/<id>/
+              {{ producto.id }} → el ID autogenerado por Django (clave primaria)
+            -->
+            <a class="btn-editar" href="/productos/editar/{{ producto.id }}/">Editar</a>
+            <a class="btn-eliminar" href="/productos/eliminar/{{ producto.id }}/"
+               onclick="return confirm('¿Seguro que quieres eliminar este producto?')">
+              Eliminar
+            </a>
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty-msg">No hay productos registrados.</p>
+  {% endif %}
+
+  <div class="links">
+    <a href="/productos/registro/">+ Registrar nuevo producto</a>
+    <a href="/">← Inicio</a>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<!--
+  lista_estudiantes.html — Lista de todos los estudiantes guardados en la BD
+  Diapositiva 29: usar {% if %} y {% for %} de Django Templates
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Lista de estudiantes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f5f5f5;
+    }
+    h1 { color: #2c5f2d; }
+    ul { list-style: none; padding: 0; }
+    li {
+      background: white;
+      margin: 8px 0;
+      padding: 12px;
+      border-left: 4px solid #2c5f2d;
+      border-radius: 4px;
+    }
+    .links a {
+      display: inline-block;
+      margin: 5px 10px 5px 0;
+      padding: 8px 14px;
+      background: #2c5f2d;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .links a:hover { background: #1e4020; }
+    .empty-msg { color: #888; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <h1>Lista de estudiantes</h1>
+
+  <!--
+    {% if estudiantes %} → evalúa si la lista tiene elementos
+    {% for estudiante in estudiantes %} → itera sobre cada objeto de la lista
+    {{ estudiante.nombre }} → accede al atributo del modelo
+    {% endfor %} y {% endif %} → cierran las etiquetas de control
+  -->
+  {% if estudiantes %}
+    <ul>
+      {% for estudiante in estudiantes %}
+        <li>
+          <strong>{{ estudiante.nombre }}</strong> — {{ estudiante.edad }} años
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <!-- Se muestra si no hay ningún estudiante registrado aún -->
+    <p class="empty-msg">No hay estudiantes registrados.</p>
+  {% endif %}
+
+  <br />
+  <div class="links">
+    <a href="/estudiantes/registro/">+ Registrar nuevo estudiante</a>
+    <a href="/">← Inicio</a>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<!--
+  registro_estudiante.html — Formulario de registro de estudiante
+  Diapositivas 17 y 28: diseñar vista de Registro con validación JS
+
+  Actividad (diapositiva 17):
+    - Inputs: nombre, edad
+    - Botón "Guardar"
+    - JS: validar que nombre no esté vacío y edad sea número mayor a 0
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Registrar estudiante</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f5f5f5;
+    }
+    h1 { color: #2c5f2d; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button[type="submit"] {
+      margin-top: 20px;
+      padding: 10px 24px;
+      background: #2c5f2d;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button[type="submit"]:hover { background: #1e4020; }
+    #error-msg {
+      color: red;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    .back-link { margin-top: 20px; display: block; color: #028090; }
+  </style>
+</head>
+<body>
+
+  <h1>Registrar estudiante</h1>
+
+  <!--
+    method="post" → los datos se envían en el cuerpo de la petición (no en la URL)
+    {% csrf_token %} → token de seguridad obligatorio en formularios Django (middleware CSRF)
+  -->
+  <form method="post" id="form-estudiante">
+    {% csrf_token %}
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required />
+
+    <label for="edad">Edad:</label>
+    <input type="number" id="edad" name="edad" placeholder="Ej: 20" min="1" required />
+
+    <!-- Mensaje de error que muestra JS si la validación falla -->
+    <p id="error-msg"></p>
+
+    <button type="submit">Guardar</button>
+  </form>
+
+  <a class="back-link" href="/estudiantes/">← Ver lista de estudiantes</a>
+  <a class="back-link" href="/">← Volver al inicio</a>
+
+  <script>
+    // Validación del lado del cliente antes de enviar el formulario
+    // Diapositiva 17: JS valida nombre no vacío y edad sea número > 0
+    const form = document.getElementById("form-estudiante");
+    const errorMsg = document.getElementById("error-msg");
+
+    form.addEventListener("submit", function(event) {
+      const nombre = document.getElementById("nombre").value.trim();
+      const edad = parseInt(document.getElementById("edad").value);
+
+      // Limpiar mensaje de error previo
+      errorMsg.textContent = "";
+
+      // Validación 1: nombre no debe estar vacío
+      if (nombre === "") {
+        event.preventDefault(); // detener el envío del formulario
+        errorMsg.textContent = "⚠️ El nombre no puede estar vacío.";
+        return;
+      }
+
+      // Validación 2: edad debe ser un número mayor a 0
+      if (isNaN(edad) || edad <= 0) {
+        event.preventDefault();
+        errorMsg.textContent = "⚠️ La edad debe ser un número mayor a 0.";
+        return;
+      }
+
+      // Si pasa todas las validaciones, el formulario se envía normalmente
+    });
+  </script>
+
+</body>
+</html>

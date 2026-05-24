@@ -1,0 +1,88 @@
+<!doctype html>
+<!--
+  home.html — Template principal
+  Diapositiva 15: estructura HTML + Django Template Language + JavaScript
+
+  Conceptos usados:
+    {{ titulo }}  → Variable de contexto inyectada desde views.py
+    {% ... %}     → Etiquetas de lógica de Django Templates
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ titulo }}</title>
+  <style>
+    /* Estilos básicos para que la página se vea ordenada */
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    h1 { color: #2c5f2d; }
+    .nav-links { margin-top: 20px; }
+    .nav-links a {
+      display: inline-block;
+      margin: 5px 10px 5px 0;
+      padding: 8px 14px;
+      background: #2c5f2d;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .nav-links a:hover { background: #1e4020; }
+    #btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #028090;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    #btn:hover { background: #016070; }
+    #out {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #028090;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- {{ titulo }} es reemplazado por el valor enviado desde views.py -->
+  <h1>{{ titulo }}</h1>
+
+  <p>Renderizado desde Django Template.</p>
+  <p>Este proyecto demuestra el flujo completo:<br>
+     <strong>URL → View (Python) → Template (HTML) → Response</strong>
+  </p>
+
+  <!-- Navegación hacia las secciones del proyecto -->
+  <div class="nav-links">
+    <a href="/estudiantes/registro/">Registrar Estudiante</a>
+    <a href="/estudiantes/">Ver Estudiantes</a>
+    <a href="/productos/registro/">Registrar Producto</a>
+    <a href="/productos/">Ver Productos</a>
+    <a href="/saludo/">Saludo (primer endpoint)</a>
+  </div>
+
+  <!-- Botón de prueba de JavaScript (diapositiva 15) -->
+  <button id="btn">Click JS</button>
+  <p id="out"></p>
+
+  <script>
+    // JavaScript del lado del cliente (navegador)
+    // Diapositiva 15: interacción desde JavaScript
+    document.getElementById("btn").addEventListener("click", () => {
+      // Cuando el usuario hace clic, muestra un mensaje en el párrafo #out
+      document.getElementById("out").innerText = "Interacción desde JavaScript";
+    });
+  </script>
+
+</body>
+</html>

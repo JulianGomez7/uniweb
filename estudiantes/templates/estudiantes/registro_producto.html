@@ -1,0 +1,98 @@
+<!doctype html>
+<!--
+  registro_producto.html — Formulario para registrar un nuevo producto
+  Diapositiva 35: CREATE del CRUD de productos
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Registrar producto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f5f5f5;
+    }
+    h1 { color: #028090; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button[type="submit"] {
+      margin-top: 20px;
+      padding: 10px 24px;
+      background: #028090;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button[type="submit"]:hover { background: #016070; }
+    #error-msg { color: red; margin-top: 10px; }
+    .back-link { margin-top: 15px; display: block; color: #028090; }
+  </style>
+</head>
+<body>
+
+  <h1>Registrar producto</h1>
+
+  <form method="post" id="form-producto">
+    {% csrf_token %}
+
+    <div>
+      <label for="nombre">Nombre:</label>
+      <!-- name="nombre" debe coincidir con request.POST.get("nombre") en views.py -->
+      <input type="text" id="nombre" name="nombre" placeholder="Ej: Laptop" required />
+    </div>
+
+    <br />
+
+    <div>
+      <label for="precio">Precio:</label>
+      <!-- step="0.01" permite ingresar valores decimales como 19.99 -->
+      <input type="number" id="precio" name="precio" step="0.01" min="0.01" placeholder="Ej: 999.99" required />
+    </div>
+
+    <p id="error-msg"></p>
+
+    <button type="submit">Guardar</button>
+  </form>
+
+  <a class="back-link" href="/productos/">← Ver lista de productos</a>
+  <a class="back-link" href="/">← Volver al inicio</a>
+
+  <script>
+    // Validación JS antes de enviar el formulario
+    const form = document.getElementById("form-producto");
+    const errorMsg = document.getElementById("error-msg");
+
+    form.addEventListener("submit", function(event) {
+      const nombre = document.getElementById("nombre").value.trim();
+      const precio = parseFloat(document.getElementById("precio").value);
+
+      errorMsg.textContent = "";
+
+      if (nombre === "") {
+        event.preventDefault();
+        errorMsg.textContent = "⚠️ El nombre no puede estar vacío.";
+        return;
+      }
+
+      if (isNaN(precio) || precio <= 0) {
+        event.preventDefault();
+        errorMsg.textContent = "⚠️ El precio debe ser un número mayor a 0.";
+        return;
+      }
+    });
+  </script>
+
+</body>
+</html>
